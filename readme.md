@@ -20,6 +20,7 @@ codeGeneratorConfig.json 配置如下，该配置文件用于配置需要替换�
   "date": "2020-08-17 11:40",  // 生成日期
   "src_path": "/Users/LinkedME06/Downloads/code-generate/", // 源码位置
   "des_path": "/Users/LinkedME06/IdeaProjects/active-op/", // 工程路径
+  "pkg_path": "cc.linkedme.active.op",//包名
   "replace_config": [ // 需要替换的字符串位置，目前只配置了以下可替换的字符串
     {
       "old_string": "${AaBb}",

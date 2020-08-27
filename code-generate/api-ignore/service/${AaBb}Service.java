@@ -1,4 +1,4 @@
-package cc.linkedme.page.service;
+package ${pkg_name};
 
 
 /**

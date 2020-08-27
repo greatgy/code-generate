@@ -1,4 +1,4 @@
-package cc.linkedme.page.model.search;
+package ${pkg_name};
 
 import cc.linkedme.bo.BaseQueryParam;
 import lombok.Data;

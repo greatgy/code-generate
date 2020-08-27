@@ -1,4 +1,4 @@
-package cc.linkedme.page.dao.persist;
+package ${pkg_name};
 
 import cc.linkedme.errorcode.BaseErrorCode;
 import com.github.pagehelper.PageHelper;

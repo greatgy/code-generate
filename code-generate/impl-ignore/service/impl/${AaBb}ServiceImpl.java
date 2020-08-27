@@ -1,4 +1,4 @@
-package cc.linkedme.page.service.impl;
+package ${pkg_name};
 
 import cc.linkedme.errorcode.BaseErrorCode;
 import cc.linkedme.exception.BusinessException;

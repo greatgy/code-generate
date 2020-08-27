@@ -1,4 +1,4 @@
-package cc.linkedme.page.converter;
+package ${pkg_name};
 
 import org.springframework.beans.BeanUtils;
 

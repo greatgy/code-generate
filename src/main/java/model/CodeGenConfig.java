@@ -16,6 +16,7 @@ public class CodeGenConfig {
     private String date;
     private String srcPath;
     private String desPath;
+    private String pkgPath;
     private List<GenConfig> genConfig;
     private List<ReplaceConfig> replaceConfig;
 
@@ -65,5 +66,13 @@ public class CodeGenConfig {
 
     public void setReplaceConfig(List<ReplaceConfig> replaceConfig) {
         this.replaceConfig = replaceConfig;
+    }
+
+    public String getPkgPath() {
+        return pkgPath;
+    }
+
+    public void setPkgPath(String pkgPath) {
+        this.pkgPath = pkgPath;
     }
 }

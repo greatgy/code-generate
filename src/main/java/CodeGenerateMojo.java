@@ -12,7 +12,6 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.function.Consumer;
@@ -90,6 +89,38 @@ public class CodeGenerateMojo extends AbstractMojo {
         }
     }
 
+
+    public void execute(File configurationFile) throws MojoExecutionException, MojoFailureException {
+        if (skip) {
+            System.out.println("跳过代码生成");
+            return;
+        }
+        try {
+            String codeGenConfigString = FileUtils.readFileToString(configurationFile, Charset.defaultCharset());
+            CodeGenConfig codeGenConfig = JsonConverter.parse(codeGenConfigString, CodeGenConfig.class);
+
+            System.out.println("读取到的配置为：" + codeGenConfigString);
+            System.out.println("codeGenConfig.getSrcPath()：" + codeGenConfig.getSrcPath());
+            author = codeGenConfig.getAuthor();
+            date = codeGenConfig.getDate();
+            List<GenConfig> genConfigList = codeGenConfig.getGenConfig();
+            replaceConfigList = codeGenConfig.getReplaceConfig();
+            genConfigList.forEach(new Consumer<GenConfig>() {
+                @Override
+                public void accept(GenConfig genConfig) {
+                    File srcPath = new File(codeGenConfig.getSrcPath() + genConfig.getSrcPath());
+                    if (srcPath.exists()) {
+                        handleFile(srcPath, codeGenConfig.getDesPath() + genConfig.getDesPath());
+                    } else {
+                        System.out.println("无此目录");
+                    }
+                }
+            });
+        } catch (IOException e) {
+            throw new MojoExecutionException("配置文件读取错误");
+        }
+    }
+
     private void handleFile(File file, String desPath) {
         if (file.isDirectory()) {
             File[] fileArr = file.listFiles();
@@ -107,8 +138,11 @@ public class CodeGenerateMojo extends AbstractMojo {
                 System.out.println(file.getPath() + "是文件");
                 try {
                     String readFile = FileUtils.readFileToString(file, Charset.defaultCharset());
+                    String pkgPath = desPath.substring(desPath.indexOf("cc/linkedme"), desPath.length() - 1).replace("/", ".");
                     readFile = readFile.replace("${author}", author);
                     readFile = readFile.replace("${date}", date);
+                    readFile = readFile.replace("${pkg_name}", pkgPath);
+
                     String newFileName = file.getName();
                     for (ReplaceConfig replaceConfig : replaceConfigList) {
                         readFile = readFile.replace(replaceConfig.getOldString(), replaceConfig.getNewString());
@@ -129,6 +163,12 @@ public class CodeGenerateMojo extends AbstractMojo {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) throws MojoFailureException, MojoExecutionException {
+        CodeGenerateMojo codeGenerateMojo = new CodeGenerateMojo();
+        File file = new File("src/main/resources/codeGeneratorConfig.json");
+        codeGenerateMojo.execute(file);
     }
 
 

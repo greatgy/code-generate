@@ -1,4 +1,4 @@
-package cc.linkedme.page.constants;
+package ${pkg_name};
 
 /**
  * @author ${author}

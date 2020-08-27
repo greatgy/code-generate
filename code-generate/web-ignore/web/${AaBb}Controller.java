@@ -1,4 +1,4 @@
-package cc.linkedme.page.web;
+package ${pkg_name};
 
 import cc.linkedme.entities.PageInfoResp;
 import cc.linkedme.errorcode.BaseErrorCode;
